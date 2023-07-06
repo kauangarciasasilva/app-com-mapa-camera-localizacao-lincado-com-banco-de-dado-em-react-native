@@ -1,24 +1,24 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import React from "react";
-import Home from "./src/home/home";
-import { Camera } from "expo-camera";
+
 import CameraPage from "./src/components/camera-component";
+import Mapa from "./src/components/mapa-component";
 
 
 
 
-export default function App(){
 
-    const Stack = createNativeStackNavigator();
 
-       
-    
-    return(
-        <NavigationContainer>
-        <Stack.Navigator>
-          
-          <Stack.Screen name="home" component={Home}  options={{
+export default function App(navigation) {
+
+  const Stack = createNativeStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+
+        <Stack.Screen name="mapa" component={Mapa} options={{
           title: 'Map',
           headerStyle: {
             backgroundColor: 'rgb(1,4,9)',
@@ -27,22 +27,22 @@ export default function App(){
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-       
-        }}/>   
-        <Stack.Screen name="camera" component={CameraPage}  options={{
-            title: 'Map',
-            headerStyle: {
-              backgroundColor: 'rgb(1,4,9)',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}/>
-   
-         
-        </Stack.Navigator>
-      </NavigationContainer>
- 
-    );
+
+        }} />
+        <Stack.Screen name="camera" component={CameraPage} options={{
+          title: 'Camera',
+          headerStyle: {
+            backgroundColor: 'rgb(1,4,9)',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
+
+
+      </Stack.Navigator>
+    </NavigationContainer>
+
+  );
 }

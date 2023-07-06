@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "Photo location",
-    "slug": "Photo location",
+    "name": "map",
+    "slug": "map",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splashPrincipal.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
-      "*/"
+      "**/*"
     ],
     "ios": {
       "supportsTablet": true
@@ -27,5 +27,6 @@
       "favicon": "./assets/favicon.png"
     }
 
+    
   }
 }
