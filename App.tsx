@@ -39,6 +39,7 @@ export default function App(navigation) {
             fontWeight: 'bold',
           },
         }} />
+      
 
 
       </Stack.Navigator>
