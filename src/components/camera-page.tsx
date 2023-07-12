@@ -1,6 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableHighlight, Text } from "react-native";
+import { View, StyleSheet, TouchableHighlight } from "react-native";
 import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -36,53 +36,48 @@ export default function CameraPage({ navigation }) {
         ratio={'1:1'}
       />
       <View style={styles.botton}>
-       
-        <TouchableHighlight
-          style={styles.bottonCenter}
-          onPress={() => { takePicture() }}
-        >
+
+        <TouchableHighlight style={styles.bottonCenter} onPress={() => { takePicture() }}>
           <MaterialIcons name="camera" size={100} color="black" />
         </TouchableHighlight>
       </View>
-       <TouchableHighlight
-          style={styles.bottonvoltar}
-          onPress={() => navigation.goBack()}
-        >
+      <TouchableHighlight style={styles.bottonvoltar} onPress={() => navigation.goBack()}>
         <Ionicons name="caret-back-circle-outline" size={80} color="black" />
-        </TouchableHighlight>
+      </TouchableHighlight>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
-
   },
+
   img: {
     width: 50,
     height: 50,
     marginHorizontal: 20,
     marginRight: 40,
     marginTop: 15,
-    borderRadius: 25,
   },
+
   styleCamera: {
     aspecRatio: 1,
     flex: 1,
-  },
+  }, 
+
   botton: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 150,
-    width: 150,
-    borderRadius: 30,
+    height: 100,
+    width: 100,
+    borderRadius: 20,
     position: 'absolute',
     bottom: 50,
-    marginHorizontal:200
+    marginHorizontal: 200
+  }, 
 
-
-  },
   bottonvoltar: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -91,13 +86,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     position: 'absolute',
     bottom: 50,
-    marginHorizontal:400
-
-
+    marginHorizontal: 400
   },
- 
+
   bottonCenter: {
     alignItems: 'center',
-     
   }
 });

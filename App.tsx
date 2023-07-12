@@ -1,23 +1,19 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import React from "react";
+import CameraPage from "./src/components/camera-page";
+import Mapa from "./src/components/mapa-page";
 
-import CameraPage from "./src/components/camera-component";
-import Mapa from "./src/components/mapa-component";
-
-
-
-
-
-
+import HomeView from "./src/home/homeview";
 export default function App(navigation) {
 
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
+      
       <Stack.Navigator>
-
+     
         <Stack.Screen name="mapa" component={Mapa} options={{
           title: 'Map',
           headerStyle: {
@@ -27,7 +23,6 @@ export default function App(navigation) {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-
         }} />
         <Stack.Screen name="camera" component={CameraPage} options={{
           title: 'Camera',
@@ -38,12 +33,8 @@ export default function App(navigation) {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-        }} />
-      
-
-
+        }} />       
       </Stack.Navigator>
     </NavigationContainer>
-
   );
 }
