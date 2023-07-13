@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, View, TouchableHighlight, TextInput } from 'react-native';
 import { Image } from "expo-image";
 import { AntDesign } from '@expo/vector-icons';
+import { Marker } from 'react-native-maps';
 
 interface Props {
   modalOpen: boolean;
@@ -12,14 +13,23 @@ interface Props {
 
 export default function ModalComponent(props: Props) {
   const [customDescription, setCustomDescription] = useState('');
+  const [customName, setCustomName] = useState('');
+  const [editing, setEditing] = useState(false);
 
   const handleSaveDescription = () => {
-    if (customDescription.trim() !== '') {
+    if (customDescription.trim() !== '' && customName.trim() !== '') {
       props.selectedMarker.newDescription = customDescription;
+      props.selectedMarker.newName = customName;
       setCustomDescription('');
+      setCustomName('');
+      setEditing(false);
     } else {
       Alert.alert('Erro', 'Por favor, insira uma descrição válida');
     }
+  };
+
+  const handleEditMarker = () => {
+    setEditing(true);
   };
 
   const handleDeleteMarker = () => {
@@ -49,30 +59,47 @@ export default function ModalComponent(props: Props) {
         <View style={styles.modalContainer}>
           {props.selectedMarker && (
             <View style={styles.modalContent}>
-              <Text style={styles.modalDescription}>{props.selectedMarker.description}</Text>
+              <TouchableHighlight style={styles.closeButton} onPress={props.modalClose}>
+                <AntDesign name="closecircleo" size={40} color="black" />
+              </TouchableHighlight>
+              <View>
+                {editing ? (
+                  <TextInput
+                    style={styles.inputDescription}
+                    placeholder="Nome do Local"
+                    onChangeText={text => setCustomName(text)}
+                    value={customName}
+                  />
+                ) : (
+                  <Text style={styles.modalName}>{props.selectedMarker.newName}</Text>
+                )}
+              </View>
               <View style={styles.imageContainer}>
                 <Image style={styles.modalImage} source={{ uri: props.selectedMarker.image }} />
-                {props.selectedMarker.newDescription && (
+                {editing ? (
+                  <TextInput
+                    style={styles.inputDescription}
+                    placeholder="Insira uma nova descrição"
+                    onChangeText={text => setCustomDescription(text)}
+                    value={customDescription}
+                  />
+                ) : (
                   <Text style={styles.newDescription}>{props.selectedMarker.newDescription}</Text>
                 )}
-                <TextInput
-                  style={styles.inputDescription}
-                  placeholder="Insira uma nova descrição"
-                  onChangeText={text => setCustomDescription(text)}
-                  value={customDescription}
-                />
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableHighlight style={styles.saveButton} onPress={handleSaveDescription}>
-                  <AntDesign style={styles.saveButtonText}name="save" size={24} color="black" />
-                </TouchableHighlight>
-                <TouchableHighlight style={styles.modalButton} onPress={props.modalClose}>
-                  <AntDesign name="closecircleo" size={40} color="black" />
-                </TouchableHighlight>
                 <TouchableHighlight style={styles.deleteButton} onPress={handleDeleteMarker}>
-                  <AntDesign style={styles.buttonText}name="delete" size={24} color="black" />
+                  <AntDesign style={styles.buttonText} name="delete" size={24} color="black" />
                 </TouchableHighlight>
-          
+                {!editing ? (
+                  <TouchableHighlight style={styles.editButton} onPress={handleEditMarker}>
+                    <AntDesign style={styles.saveButtonText} name="edit" size={24} color="black" />
+                  </TouchableHighlight>
+                ) : (
+                  <TouchableHighlight style={styles.saveButton} onPress={handleSaveDescription}>
+                    <AntDesign style={styles.saveButtonText} name="save" size={24} color="black" />
+                  </TouchableHighlight>
+                )}
               </View>
             </View>
           )}
@@ -96,7 +123,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 350,
   },
-  modalDescription: {
+  modalName: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 10,
@@ -134,15 +161,18 @@ const styles = StyleSheet.create({
   saveButton: {
     backgroundColor: 'rgb(100,128,139)',
     borderRadius: 30,
-    padding:20
+    padding: 20,
   },
   deleteButton: {
-
     backgroundColor: 'red',
     borderRadius: 30,
-   padding:20,
-   marginHorizontal:100
-   
+    padding: 20,
+    marginRight: 270,
+  },
+  editButton: {
+    backgroundColor: 'orange',
+    borderRadius: 30,
+    padding: 20,
   },
   saveButtonText: {
     color: 'white',
@@ -152,9 +182,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  modalButton: {
-    marginHorizontal:30,
+  closeButton: {
     borderRadius: 10,
-    padding:10,
+    marginTop: 20,
+    marginRight: 350,
+    padding: 6,
   },
 });

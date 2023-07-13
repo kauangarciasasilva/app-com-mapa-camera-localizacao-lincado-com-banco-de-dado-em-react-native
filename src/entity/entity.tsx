@@ -1,6 +1,6 @@
 interface EntityLocation {
    id:number;
-    description: string;
+    newName: string;
     newDescription: string;
     data: string;
     latitude: number;

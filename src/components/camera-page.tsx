@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
 import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 
-export default function CameraPage({ navigation }) {
+export default function CameraPage({ navigation,route }) {
 
   const [camera, setCamera] = useState(null);
   const [Permission, setPermission] = useState(null);
@@ -21,12 +20,11 @@ export default function CameraPage({ navigation }) {
   async function takePicture() {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
-      console.log(uri);
-
       await MediaLibrary.saveToLibraryAsync(uri);
+      navigation.navigate('mapa', { image: uri, markerId: route.params.markerId });
     }
   }
-
+  
   return (
     <View style={styles.container}>
       <Camera
@@ -41,13 +39,10 @@ export default function CameraPage({ navigation }) {
           <MaterialIcons name="camera" size={100} color="black" />
         </TouchableHighlight>
       </View>
-      <TouchableHighlight style={styles.bottonvoltar} onPress={() => navigation.goBack()}>
-        <Ionicons name="caret-back-circle-outline" size={80} color="black" />
-      </TouchableHighlight>
+      
     </View>
   );
 }
-
 const styles = StyleSheet.create({
 
   container: {
@@ -75,19 +70,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: 'absolute',
     bottom: 50,
-    marginHorizontal: 200
+    marginHorizontal: 250
   }, 
 
-  bottonvoltar: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 150,
-    width: 150,
-    borderRadius: 30,
-    position: 'absolute',
-    bottom: 50,
-    marginHorizontal: 400
-  },
 
   bottonCenter: {
     alignItems: 'center',
