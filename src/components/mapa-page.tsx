@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, TouchableHighlight ,Text} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ export default function Mapa({ navigation, route }) {
   const [selectedMarkerImage, setSelectedMarkerImage] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [atualImage, setAtualImage] = useState(null);
+
   const [marker, setMarker] = useState([
     {
       id: 1,
@@ -34,11 +35,7 @@ export default function Mapa({ navigation, route }) {
     }
   }, [route.params?.image, route.params?.markerId]);
 
-  const handleMapPress = (event) => {
-    const { latitude, longitude } = event.nativeEvent.coordinate;
-    setNewMarker({ id: marker.length + 1, latitude, longitude });
-  };
-
+ 
   useEffect(() => {
     if (newMarker) {
       setMarker((prevMarker) => [...prevMarker, newMarker]);
@@ -71,15 +68,19 @@ export default function Mapa({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+
       <MapView
         style={styles.map}
         initialRegion={{
           latitude: -22.1184,
           longitude: -43.21,
           latitudeDelta: 0.015,
-          longitudeDelta: 0.001,
+          longitudeDelta: 0.001, 
+     
         }}
-        onPress={handleMapPress}
+        showsUserLocation={true}
+       
+       
       >
         {marker.map((item) => (
           <Marker
@@ -98,6 +99,7 @@ export default function Mapa({ navigation, route }) {
           </Marker>
         ))}
       </MapView>
+      
       <ModalComponent
         modalOpen={modalOpen}
         selectedMarker={atualImage}
