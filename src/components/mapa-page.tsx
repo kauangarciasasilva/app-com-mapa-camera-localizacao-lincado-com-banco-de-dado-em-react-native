@@ -4,6 +4,8 @@ import MapView, { Marker } from 'react-native-maps';
 import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
 import ModalComponent from './modal-componets';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../../firebase-config';
 
 export default function Mapa({ navigation, route }) {
   const [newMarker, setNewMarker] = useState(null);
@@ -24,6 +26,7 @@ export default function Mapa({ navigation, route }) {
   ]);
 
   useEffect(() => {
+    getPlaces
     if (route.params?.image && route.params?.markerId) {
       const updatedMarker = marker.map((item) => {
         if (item.id === route.params.markerId) {
@@ -65,6 +68,14 @@ export default function Mapa({ navigation, route }) {
     setAtualImage(item);
     setModalOpen(true);
   };
+  async function getPlaces() {
+    return onValue(ref(db,'places'), (snapshot) => {
+      console.log('foi base',snapshot);
+
+    });
+
+
+  }
 
   return (
     <View style={styles.container}>
@@ -93,7 +104,7 @@ export default function Mapa({ navigation, route }) {
               {selectedMarkerImage && atualImage?.id === item.id ? (
                 <Image style={styles.tamanhoImg} source={{ uri: selectedMarkerImage }} />
               ) : (
-                <Image style={styles.tamanhoImg} source={{ uri: item.image }} />
+                <Image style={styles.tamanhoImg} source={{ uri:item.image}} />
               )}
             </View>
           </Marker>

@@ -75,7 +75,7 @@ export default function ModalComponent(props: Props) {
                 )}
               </View>
               <View style={styles.imageContainer}>
-                <Image style={styles.modalImage} source={{ uri: props.selectedMarker.image }} />
+                <Image style={styles.modalImage} source={{ uri: props.selectedMarker.imagePath }} />
                 {editing ? (
                   <TextInput
                     style={styles.inputDescription}
