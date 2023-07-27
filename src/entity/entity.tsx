@@ -1,7 +1,7 @@
 interface EntityLocation {
    id:number;
-    newName: string;
-    newDescription: string;
+    title: string;
+    description: string;
     photoDate: string;
     coords:{ latitude: number ,longitude: number};
     imagePath: string;

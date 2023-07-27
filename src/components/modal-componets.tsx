@@ -18,8 +18,8 @@ export default function ModalComponent(props: Props) {
 
   const handleSaveDescription = () => {
     if (customDescription.trim() !== '' && customName.trim() !== '') {
-      props.selectedMarker.newDescription = customDescription;
-      props.selectedMarker.newName = customName;
+      props.selectedMarker.description = customDescription;
+      props.selectedMarker.title = customName;
       setCustomDescription('');
       setCustomName('');
       setEditing(false);
@@ -71,7 +71,7 @@ export default function ModalComponent(props: Props) {
                     value={customName}
                   />
                 ) : (
-                  <Text style={styles.modalName}>{props.selectedMarker.newName}</Text>
+                  <Text style={styles.modalName}>{props.selectedMarker.title}</Text>
                 )}
               </View>
               <View style={styles.imageContainer}>
@@ -84,7 +84,7 @@ export default function ModalComponent(props: Props) {
                     value={customDescription}
                   />
                 ) : (
-                  <Text style={styles.newDescription}>{props.selectedMarker.newDescription}</Text>
+                  <Text style={styles.newDescription}>{props.selectedMarker.description}</Text>
                 )}
               </View>
               <View style={styles.buttonContainer}>

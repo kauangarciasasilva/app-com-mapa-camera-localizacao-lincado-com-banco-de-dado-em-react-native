@@ -5,7 +5,7 @@ import CameraPage from "./src/components/camera-page";
 import Mapa from "./src/components/mapa-page";
 
 import HomeView from "./src/home/homeview";
-export default function App(navigation) {
+export default function App() {
 
   const Stack = createNativeStackNavigator();
 

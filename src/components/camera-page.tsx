@@ -1,14 +1,37 @@
-import { Camera, CameraType } from "expo-camera";
-import { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableHighlight } from "react-native";
+import { Camera, CameraType } from 'expo-camera';
+import { useEffect, useState } from 'react';
+import { View, StyleSheet, Text,TouchableHighlight } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons';
+import { getDownloadURL, getStorage, uploadBytes ,} from '@firebase/storage';
+import {  ref ,} from 'firebase/database';
+import { app } from '../../firebase-config';
+import { Image } from 'expo-image';
 
-export default function CameraPage({ navigation,route }) {
+import * as firebaseStorage from '@firebase/storage';
 
+export default function CameraPage({ navigation, route }) {
   const [camera, setCamera] = useState(null);
-  const [Permission, setPermission] = useState(null);
+  const [permission, setPermission] = useState(null);
+  const [isUploading,setIsUploading] = useState(false)
 
+  async function uploadImage(imageUrl): Promise<string> {
+    setIsUploading(true);
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const storage = firebaseStorage.getStorage(app);
+    const storageRef = firebaseStorage.ref(
+      storage,
+      'image/' + imageUrl.replace(/^.*[\\\/]/, '')
+    );
+    const upload = await firebaseStorage.uploadBytes(storageRef, blob);
+
+    const uploadImageUrl = await firebaseStorage.getDownloadURL(storageRef);
+    console.log(uploadImageUrl);
+    setIsUploading(false);
+    return uploadImageUrl;
+
+  }
   useEffect(() => {
     (async () => {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
@@ -21,34 +44,51 @@ export default function CameraPage({ navigation,route }) {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
       await MediaLibrary.saveToLibraryAsync(uri);
-      navigation.navigate('mapa', { image: uri, markerId: route.params.markerId });
+      const imageUrl = await uploadImage(uri);
+      navigation.navigate('mapa', { image: imageUrl, markerId: route.params.markerId });
     }
   }
-  
+
   return (
     <View style={styles.container}>
-      <Camera
-        ref={(l) => setCamera(l)}
-        style={styles.styleCamera}
-        type={CameraType.back}
-        ratio={'1:1'}
-      />
-      <View style={styles.botton}>
+      {permission && (
+        <Camera
+          ref={(ref) => setCamera(ref)}
+          style={styles.styleCamera}
+          type={CameraType.back}
+          ratio={'1:1'}
+        />
+      )}
+      {
+        isUploading ? 
+        <View style={{
+          width:'100%',
+          height:'100%',
+          backgroundColor:'black',
+          opacity:0.8,
+          justifyContent:"center",
+          alignItems:'center'
 
-        <TouchableHighlight style={styles.bottonCenter} onPress={() => { takePicture() }}>
+
+
+        }}>
+          <Image style={{width:100,height:80}} source={{uri:''}}/>
+          <Text>carregando ....</Text>
+        </View>:<></>
+      }
+      <View style={styles.botton}>
+        <TouchableHighlight style={styles.bottonCenter} onPress={() => takePicture()}>
           <MaterialIcons name="camera" size={100} color="black" />
         </TouchableHighlight>
       </View>
-      
     </View>
   );
 }
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   img: {
     width: 50,
     height: 50,
@@ -56,12 +96,10 @@ const styles = StyleSheet.create({
     marginRight: 40,
     marginTop: 15,
   },
-
   styleCamera: {
-    aspecRatio: 1,
+    aspectRatio: 1, // Corrected the property name here
     flex: 1,
-  }, 
-
+  },
   botton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -70,11 +108,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: 'absolute',
     bottom: 50,
-    marginHorizontal: 250
-  }, 
-
-
+    marginHorizontal: 250,
+  },
   bottonCenter: {
     alignItems: 'center',
-  }
+  },
 });
