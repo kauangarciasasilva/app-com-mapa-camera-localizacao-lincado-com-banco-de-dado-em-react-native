@@ -9,12 +9,15 @@ interface Props {
   selectedMarker: EntityLocation;
   modalClose: () => void;
   deleteMarker: () => void;
+  handleDescription:any
 }
 
 export default function ModalComponent(props: Props) {
   const [customDescription, setCustomDescription] = useState('');
   const [customName, setCustomName] = useState('');
+  const [customData, setCustomData] = useState('');
   const [editing, setEditing] = useState(false);
+ 
 
   const handleSaveDescription = () => {
     if (customDescription.trim() !== '' && customName.trim() !== '') {
@@ -27,9 +30,14 @@ export default function ModalComponent(props: Props) {
       Alert.alert('Erro', 'Por favor, insira uma descrição válida');
     }
   };
+  
 
   const handleEditMarker = () => {
     setEditing(true);
+  };
+  const handleDescription = () => {
+    setCustomDescription('');
+    
   };
 
   const handleDeleteMarker = () => {
@@ -72,7 +80,10 @@ export default function ModalComponent(props: Props) {
                   />
                 ) : (
                   <Text style={styles.modalName}>{props.selectedMarker.title}</Text>
+                  
                 )}
+              
+                
               </View>
               <View style={styles.imageContainer}>
                 <Image style={styles.modalImage} source={{ uri: props.selectedMarker.imagePath }} />
@@ -85,6 +96,17 @@ export default function ModalComponent(props: Props) {
                   />
                 ) : (
                   <Text style={styles.newDescription}>{props.selectedMarker.description}</Text>
+                )}
+                  {editing ? (
+                  <TextInput
+                   
+                    placeholder="Data"
+                    onChangeText={text => setCustomData(text)}
+                    value={customData}
+                  />
+                ) : (
+                  <Text style={styles.modalData}>{props.selectedMarker.photoDate}</Text>
+                  
                 )}
               </View>
               <View style={styles.buttonContainer}>
@@ -116,28 +138,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
+  modalData:{
+    fontSize: 22,
+    fontWeight: 'bold',
+   marginTop:10
+  },
   modalContent: {
     backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 30,
+    padding: 30,
+    borderRadius: 10,
     alignItems: 'center',
-    marginBottom: 350,
+    marginBottom: 300,
   },
   modalName: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 10,
+   marginTop:10
   },
   imageContainer: {
     position: 'relative',
     alignItems: 'center',
   },
   modalImage: {
-    width: 400,
-    height: 400,
-    marginBottom: 20,
+    width: 300,
+    height: 300,
+    marginBottom: 10,
     borderRadius: 60,
-    marginTop: 20,
+    marginTop:20,
     marginHorizontal: 20,
   },
   newDescription: {
@@ -145,12 +172,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputDescription: {
-    width: '100%',
-    height: 40,
+    width: '90%',
+    height: 30,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 10,
+    borderRadius: 50,
+    marginBottom: 20,
     paddingHorizontal: 10,
   },
   buttonContainer: {
@@ -184,7 +211,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 0,
     marginRight: 350,
     padding: 6,
   },
