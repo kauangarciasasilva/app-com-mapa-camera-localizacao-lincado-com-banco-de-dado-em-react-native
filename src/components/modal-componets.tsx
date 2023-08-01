@@ -3,13 +3,15 @@ import { Alert, Modal, StyleSheet, Text, View, TouchableHighlight, TextInput } f
 import { Image } from "expo-image";
 import { AntDesign } from '@expo/vector-icons';
 import { Marker } from 'react-native-maps';
+import { ref, remove, update } from 'firebase/database';
+import { db } from '../../firebase-config';
 
 interface Props {
   modalOpen: boolean;
   selectedMarker: EntityLocation;
   modalClose: () => void;
-  deleteMarker: () => void;
-  handleDescription:any
+ 
+  
 }
 
 export default function ModalComponent(props: Props) {
@@ -18,14 +20,20 @@ export default function ModalComponent(props: Props) {
   const [customData, setCustomData] = useState('');
   const [editing, setEditing] = useState(false);
  
+  
+ 
 
   const handleSaveDescription = () => {
     if (customDescription.trim() !== '' && customName.trim() !== '') {
+      
       props.selectedMarker.description = customDescription;
       props.selectedMarker.title = customName;
+      update(ref(db, '/places/' + props.selectedMarker.id), props.selectedMarker);
       setCustomDescription('');
       setCustomName('');
       setEditing(false);
+      
+    
     } else {
       Alert.alert('Erro', 'Por favor, insira uma descrição válida');
     }
@@ -35,10 +43,8 @@ export default function ModalComponent(props: Props) {
   const handleEditMarker = () => {
     setEditing(true);
   };
-  const handleDescription = () => {
-    setCustomDescription('');
-    
-  };
+
+ 
 
   const handleDeleteMarker = () => {
     Alert.alert(
@@ -53,8 +59,10 @@ export default function ModalComponent(props: Props) {
           text: 'Excluir',
           style: 'destructive',
           onPress: () => {
-            props.deleteMarker();
+            remove(ref(db, '/places/' + props.selectedMarker.id),
+            );
             props.modalClose();
+          
           },
         },
       ],

@@ -52,12 +52,7 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
     }
     push(ref(db, 'places'), newPlace);
   }
-  async function updateItem() {
-    currentLocation.description = customDescription;
-    update(ref(db, '/places/' + currentLocation.id), currentLocation);
-    setModalOpen({ modalOpen:false });
-    handleDescription('');
-}
+
 
   const handleCameraPress = () => {
     navigation.navigate('camera', { callback: (imageUrl) => addItem(imageUrl) });
@@ -121,12 +116,10 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
         modalOpen={modalOpen}
         selectedMarker={atualImage}
         modalClose={() => setModalOpen(false)}
-        handleDescription={updateItem}
-        
+    
 
-        deleteMarker={() => {
-          //Vamos fazer hoje
-        } }          />
+
+                 />
       <TouchableHighlight style={styles.button} onPress={handleCameraPress}>
         <Entypo name="camera" size={40} color="black" />
       </TouchableHighlight>
