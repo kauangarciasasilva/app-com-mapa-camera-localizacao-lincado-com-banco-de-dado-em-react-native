@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, View, TouchableHighlight, TextInput } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { Image } from "expo-image";
 import { AntDesign } from '@expo/vector-icons';
 import { Marker } from 'react-native-maps';
 import { ref, remove, update } from 'firebase/database';
 import { db } from '../../firebase-config2';
 
-
+interface Props {
+  modalOpen: boolean;
+  selectedMarker: EntityLocation;
+  modalClose: () => void;
+ 
+  
+}
 
 export default function ModalComponent(props: Props) {
   const [customDescription, setCustomDescription] = useState('');
@@ -69,9 +75,9 @@ export default function ModalComponent(props: Props) {
         <View style={styles.modalContainer}>
           {props.selectedMarker && (
             <View style={styles.modalContent}>
-              <TouchableHighlight style={styles.closeButton} onPress={props.modalClose}>
+              <TouchableOpacity style={styles.closeButton} onPress={props.modalClose}>
                 <AntDesign name="closecircleo" size={40} color="black" />
-              </TouchableHighlight>
+              </TouchableOpacity>
               <View>
                 {editing ? (
                   <TextInput
@@ -112,17 +118,17 @@ export default function ModalComponent(props: Props) {
                 )}
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableHighlight style={styles.deleteButton} onPress={handleDeleteMarker}>
+                <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteMarker}>
                   <AntDesign style={styles.buttonText} name="delete" size={24} color="black" />
-                </TouchableHighlight>
+                </TouchableOpacity>
                 {!editing ? (
-                  <TouchableHighlight style={styles.editButton} onPress={handleEditMarker}>
+                  <TouchableOpacity style={styles.editButton} onPress={handleEditMarker}>
                     <AntDesign style={styles.saveButtonText} name="edit" size={24} color="black" />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 ) : (
-                  <TouchableHighlight style={styles.saveButton} onPress={handleSaveDescription}>
+                  <TouchableOpacity style={styles.saveButton} onPress={handleSaveDescription}>
                     <AntDesign style={styles.saveButtonText} name="save" size={24} color="black" />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 )}
               </View>
             </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
@@ -7,13 +7,13 @@ import ModalComponent from './modal-componets';
 import { onValue, push, ref } from 'firebase/database';
 import * as Location from 'expo-location';
 import { db } from '../../firebase-config2';
- 
-export default function Mapa({ navigation, route ,handleDescription,customDescription,}) {  
+
+export default function Mapa({ navigation, route, handleDescription, customDescription, }) {
   const [modalOpen, setModalOpen] = useState(null);
   const [atualImage, setAtualImage] = useState<EntityLocation>(null);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [places, setPlaces] = useState<EntityLocation[]>([]);
-  
+
 
   const getLocationPermission = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -53,10 +53,12 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
 
 
   const handleCameraPress = () => {
+    console.log('camera')
     navigation.navigate('camera', { callback: (imageUrl) => addItem(imageUrl) });
   }
 
   const handleMarkerPress = (item: EntityLocation) => {
+    console.log('retornou')
     setAtualImage(item);
     setModalOpen(true);
   };
@@ -81,7 +83,10 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
   }
 
   return (
+
     <View style={styles.container}>
+
+
       {currentLocation ? (
         <MapView
           style={styles.map}
@@ -93,6 +98,7 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
           }}
           showsUserLocation={true}
         >
+
           {places.map((item) => (
             <Marker
               key={Math.random().toString()}
@@ -101,6 +107,7 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
               pinColor="red"
             >
               <View style={styles.imgContainer}>
+             
                 <Image style={styles.tamanhoImg} source={{ uri: item.imagePath }} />
               </View>
             </Marker>
@@ -114,13 +121,12 @@ export default function Mapa({ navigation, route ,handleDescription,customDescri
         modalOpen={modalOpen}
         selectedMarker={atualImage}
         modalClose={() => setModalOpen(false)}
-    
+      />
 
+      <TouchableOpacity style={styles.button} onPress={handleCameraPress}>
 
-                 />
-      <TouchableHighlight style={styles.button} onPress={handleCameraPress}>
         <Entypo name="camera" size={40} color="black" />
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 }

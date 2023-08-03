@@ -5,6 +5,7 @@ interface EntityLocation {
     photoDate: string;
     coords:{ latitude: number ,longitude: number};
     imagePath: string;
+    name:string;
   }
   
  

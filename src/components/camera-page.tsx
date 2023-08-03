@@ -1,6 +1,6 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, StatusBar } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons';
 import { getDownloadURL, getStorage, uploadBytes, } from '@firebase/storage';
@@ -14,7 +14,7 @@ export default function CameraPage({ navigation, route }) {
   const [camera, setCamera] = useState(null);
   const [permission, setPermission] = useState(null);
   const [isUploading, setIsUploading] = useState(false)
-
+  const [cameraType, setCameraType] = useState<number>(Camera.Constants.Type['front']);
   async function uploadImage(imageUrl): Promise<string> {
     setIsUploading(true);
     const response = await fetch(imageUrl);
@@ -42,21 +42,35 @@ export default function CameraPage({ navigation, route }) {
 
   async function takePicture() {
     if (camera) {
+      console.log('tirou foto')
       const { uri } = await camera.takePictureAsync();
       await MediaLibrary.saveToLibraryAsync(uri);
       const imageUrl = await uploadImage(uri);
+      console.log('retornou')
       route.params.callback(imageUrl);
       navigation.goBack();
     }
   }
+  
+  const toggleCameraType = () => {
+    setCameraType((prevType) =>
+      prevType === Camera.Constants.Type['front']
+        ? Camera.Constants.Type['back']
+        : Camera.Constants.Type['front']
+    );
+  };
+  const closeCamera =()=>{
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.container}>
+          
       {permission && (
         <Camera
           ref={(ref) => setCamera(ref)}
           style={styles.styleCamera}
-          type={CameraType.back}
+          type={cameraType}
           ratio={'1:1'}
         />
       )}
@@ -75,20 +89,38 @@ export default function CameraPage({ navigation, route }) {
           }}>
             <Image style={{ width: 100, height: 80 }} source={{ uri: 'https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!sw800' }} />
             <Text>carregando ....</Text>
-          </View> : <></>
-      }
-      <View style={styles.botton}>
-        <TouchableHighlight style={styles.bottonCenter} onPress={takePicture}>
+          </View> : <> </>
+      } 
+     
+        <TouchableOpacity style={styles.bottonClose} onPress={closeCamera}>
+          <MaterialIcons name="close" size={80} color="black" />
+        </TouchableOpacity>
+     
+      
+ 
+        <TouchableOpacity style={styles.bottonCenter} onPress={takePicture}>
           <MaterialIcons name="camera" size={100} color="black" />
-        </TouchableHighlight>
-      </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toggleButton} onPress={toggleCameraType}>
+        <MaterialIcons name="flip-camera-android" size={60} color="black" />
+      </TouchableOpacity>
+      
+   
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
+   
+  },
+  toggleButton: {
+    position: 'absolute',
+    bottom: 40,
+    padding: 15,
+    right: 50,
   },
   img: {
     width: 50,
@@ -99,19 +131,19 @@ const styles = StyleSheet.create({
   },
   styleCamera: {
     aspectRatio: 1,
-    flex: 1,
+    width: '100%',
+    height: '100%',
+    marginTop:35
+   
   },
-  botton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 100,
-    width: 100,
-    borderRadius: 20,
-    position: 'absolute',
-    bottom: 50,
-    marginHorizontal: 230,
-  },
+
   bottonCenter: {
-    alignItems: 'center',
+    bottom:250,
+    marginHorizontal:230,
+    
+   
   },
+  bottonClose:{
+    bottom:1150
+  }
 });
