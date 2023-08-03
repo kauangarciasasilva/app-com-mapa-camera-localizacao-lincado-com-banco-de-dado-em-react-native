@@ -4,15 +4,9 @@ import { Image } from "expo-image";
 import { AntDesign } from '@expo/vector-icons';
 import { Marker } from 'react-native-maps';
 import { ref, remove, update } from 'firebase/database';
-import { db } from '../../firebase-config';
+import { db } from '../../firebase-config2';
 
-interface Props {
-  modalOpen: boolean;
-  selectedMarker: EntityLocation;
-  modalClose: () => void;
- 
-  
-}
+
 
 export default function ModalComponent(props: Props) {
   const [customDescription, setCustomDescription] = useState('');

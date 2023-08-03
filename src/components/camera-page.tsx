@@ -5,7 +5,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons';
 import { getDownloadURL, getStorage, uploadBytes, } from '@firebase/storage';
 import { ref, } from 'firebase/database';
-import { app } from '../../firebase-config';
+import { app } from '../../firebase-config2';
 import { Image } from 'expo-image';
 
 import * as firebaseStorage from '@firebase/storage';
@@ -45,7 +45,6 @@ export default function CameraPage({ navigation, route }) {
       const { uri } = await camera.takePictureAsync();
       await MediaLibrary.saveToLibraryAsync(uri);
       const imageUrl = await uploadImage(uri);
-      //console.log('Log da imagem', imageUrl);
       route.params.callback(imageUrl);
       navigation.goBack();
     }
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   styleCamera: {
-    aspectRatio: 1, // Corrected the property name here
+    aspectRatio: 1,
     flex: 1,
   },
   botton: {
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: 'absolute',
     bottom: 50,
-    marginHorizontal: 250,
+    marginHorizontal: 230,
   },
   bottonCenter: {
     alignItems: 'center',

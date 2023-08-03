@@ -4,11 +4,9 @@ import MapView, { Marker } from 'react-native-maps';
 import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
 import ModalComponent from './modal-componets';
-import { onValue, push, ref, update } from 'firebase/database';
-
+import { onValue, push, ref } from 'firebase/database';
 import * as Location from 'expo-location';
-import { Camera } from 'expo-camera';
-import { db } from '../../firebase-config';
+import { db } from '../../firebase-config2';
  
 export default function Mapa({ navigation, route ,handleDescription,customDescription,}) {  
   const [modalOpen, setModalOpen] = useState(null);
