@@ -3,12 +3,12 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Image } from 'expo-image';
 import { Entypo } from '@expo/vector-icons';
-import ModalComponent from './modal-componets';
+import ModalComponent from '../components/modal-componets';
 import { onValue, push, ref } from 'firebase/database';
 import * as Location from 'expo-location';
 import { db } from '../../firebase-config2';
 
-export default function Mapa({ navigation, route, handleDescription, customDescription, }) {
+export default function Mapa({ navigation, route }) {
   const [modalOpen, setModalOpen] = useState(null);
   const [atualImage, setAtualImage] = useState<EntityLocation>(null);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -107,14 +107,16 @@ export default function Mapa({ navigation, route, handleDescription, customDescr
               pinColor="red"
             >
               <View style={styles.imgContainer}>
-             
+
                 <Image style={styles.tamanhoImg} source={{ uri: item.imagePath }} />
               </View>
             </Marker>
           ))}
         </MapView>
       ) : (
-        <Text >Carregando mapa...</Text>
+        <View><Image style={{ width: 100, height: 80,justifyContent:'center' }} source={{ uri: 'https://gifs.eco.br/wp-content/uploads/2021/08/imagens-e-gifs-de-loading-18.gif' }} />
+        <Text>Carregando mapa...</Text>
+        </View>
       )}
 
       <ModalComponent

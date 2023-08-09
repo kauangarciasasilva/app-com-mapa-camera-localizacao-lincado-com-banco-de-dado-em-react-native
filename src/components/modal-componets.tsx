@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Marker } from 'react-native-maps';
 import { ref, remove, update } from 'firebase/database';
 import { db } from '../../firebase-config2';
-
+import { Entypo } from '@expo/vector-icons';
 interface Props {
   modalOpen: boolean;
   selectedMarker: EntityLocation;
@@ -14,7 +14,7 @@ interface Props {
   
 }
 
-export default function ModalComponent(props: Props) {
+export default function ModalComponent(props: Props,{navigation, route}) {
   const [customDescription, setCustomDescription] = useState('');
   const [customName, setCustomName] = useState('');
   const [customData, setCustomData] = useState('');
@@ -129,7 +129,9 @@ export default function ModalComponent(props: Props) {
                   <TouchableOpacity style={styles.saveButton} onPress={handleSaveDescription}>
                     <AntDesign style={styles.saveButtonText} name="save" size={24} color="black" />
                   </TouchableOpacity>
+                  
                 )}
+             
               </View>
             </View>
           )}

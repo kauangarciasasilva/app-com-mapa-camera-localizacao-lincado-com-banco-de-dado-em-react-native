@@ -21,12 +21,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyADU3bOiJGUeUU2_OHylHLwnM-Djo1UQGM"
+        }
+      },
+      "package": "com.kauangarciasasilva.map"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5ea81902-f811-4b14-ac0b-a3833531e073"
+      }
     }
-
-    
   }
 }
