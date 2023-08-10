@@ -7,6 +7,7 @@ import ModalComponent from '../components/modal-componets';
 import { onValue, push, ref } from 'firebase/database';
 import * as Location from 'expo-location';
 import { db } from '../../firebase-config2';
+import { getStorageData } from '../shared/secury-storage';
 
 export default function Mapa({ navigation, route }) {
   const [modalOpen, setModalOpen] = useState(null);
@@ -41,12 +42,14 @@ export default function Mapa({ navigation, route }) {
       id: Math.random(),
       title: '',
       imagePath: imageUrl,
-      photoDate: '',
+      photoDate: Date.now(),
       coords: {
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude
+        
       },
-      description: ''
+      description: '',
+      author: await getStorageData('author')
     }
     push(ref(db, 'places'), newPlace);
   }
@@ -55,6 +58,11 @@ export default function Mapa({ navigation, route }) {
   const handleCameraPress = () => {
     console.log('camera')
     navigation.navigate('camera', { callback: (imageUrl) => addItem(imageUrl) });
+  }
+  
+  const handleChat = () => {
+    console.log(atualImage)
+    navigation.navigate('chat',{ item:(atualImage)});
   }
 
   const handleMarkerPress = (item: EntityLocation) => {
@@ -114,8 +122,8 @@ export default function Mapa({ navigation, route }) {
           ))}
         </MapView>
       ) : (
-        <View><Image style={{ width: 100, height: 80,justifyContent:'center' }} source={{ uri: 'https://gifs.eco.br/wp-content/uploads/2021/08/imagens-e-gifs-de-loading-18.gif' }} />
-        <Text>Carregando mapa...</Text>
+        <View>
+        <Text  >Carregando mapa...</Text>
         </View>
       )}
 
@@ -123,6 +131,7 @@ export default function Mapa({ navigation, route }) {
         modalOpen={modalOpen}
         selectedMarker={atualImage}
         modalClose={() => setModalOpen(false)}
+        handleChat={handleChat}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleCameraPress}>

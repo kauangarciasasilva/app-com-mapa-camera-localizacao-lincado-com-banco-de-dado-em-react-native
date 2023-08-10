@@ -5,6 +5,7 @@ import CameraPage from "./src/homePage/camera-page";
 import Mapa from "./src/homePage/mapa-page";
 
 import LoginPage from "./src/homePage/login-page";
+import ChatPage from "./src/homePage/chat-page";
 export default function App() {
 
   const Stack = createNativeStackNavigator();
@@ -16,6 +17,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
         <Stack.Screen name="mapa" component={Mapa} options={{ headerShown: false }} />
         <Stack.Screen name="camera" component={CameraPage} options={{ headerShown: false }} />
+        <Stack.Screen name="chat" component={ChatPage} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

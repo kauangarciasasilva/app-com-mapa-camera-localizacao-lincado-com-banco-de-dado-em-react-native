@@ -5,11 +5,13 @@ import { AntDesign } from '@expo/vector-icons';
 import { Marker } from 'react-native-maps';
 import { ref, remove, update } from 'firebase/database';
 import { db } from '../../firebase-config2';
+
 import { Entypo } from '@expo/vector-icons';
 interface Props {
   modalOpen: boolean;
   selectedMarker: EntityLocation;
   modalClose: () => void;
+  handleChat: ()=> void;
  
   
 }
@@ -121,6 +123,9 @@ export default function ModalComponent(props: Props,{navigation, route}) {
                 <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteMarker}>
                   <AntDesign style={styles.buttonText} name="delete" size={24} color="black" />
                 </TouchableOpacity>
+                 <TouchableOpacity style={styles.saveButton} onPress={props.handleChat}>
+                 <Entypo name="chat" size={24} color="black" />
+                  </TouchableOpacity>
                 {!editing ? (
                   <TouchableOpacity style={styles.editButton} onPress={handleEditMarker}>
                     <AntDesign style={styles.saveButtonText} name="edit" size={24} color="black" />
@@ -130,7 +135,9 @@ export default function ModalComponent(props: Props,{navigation, route}) {
                     <AntDesign style={styles.saveButtonText} name="save" size={24} color="black" />
                   </TouchableOpacity>
                   
+                  
                 )}
+                
              
               </View>
             </View>
@@ -147,6 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    
   },
   modalData:{
     fontSize: 22,
@@ -155,10 +163,12 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 30,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 40,
+    marginHorizontal:10,
     alignItems: 'center',
     marginBottom: 300,
+    
   },
   modalName: {
     fontSize: 22,
@@ -199,12 +209,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(100,128,139)',
     borderRadius: 30,
     padding: 20,
+    marginRight:10
   },
   deleteButton: {
     backgroundColor: 'red',
     borderRadius: 30,
     padding: 20,
-    marginRight: 270,
+    marginRight: 250,
   },
   editButton: {
     backgroundColor: 'orange',
@@ -214,6 +225,7 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: 'white',
     fontWeight: 'bold',
+    
   },
   buttonText: {
     color: 'white',
@@ -221,8 +233,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     borderRadius: 10,
-    marginTop: 0,
-    marginRight: 350,
+    marginTop: 5,
+    marginRight: 390,
     padding: 6,
   },
 });

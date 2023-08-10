@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { getStorageData, setStorageData } from '../shared/secury-storage';
 
-const LoginPage = ({ navigation }) => {
+export default function LoginPage  ({ navigation }) {
   const [author, setAuthor] = useState('');
 
   useEffect(() => {
@@ -99,4 +99,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginPage;

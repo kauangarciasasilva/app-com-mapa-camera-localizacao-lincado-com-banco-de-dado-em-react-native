@@ -51,6 +51,7 @@ export default function CameraPage({ navigation, route }) {
       const imageUrl = await uploadImage(uri);
       console.log('retornou')
       route.params.callback(imageUrl);
+      navigation.goback();
    
     }
   }
