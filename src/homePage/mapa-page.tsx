@@ -18,11 +18,9 @@ export default function Mapa({ navigation, route }) {
 
   const getLocationPermission = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      console.log('Permissão de localização não concedida');
-    } else {
+    
       getCurrentLocation();
-    }
+    
   };
   const getCurrentLocation = async () => {
     const { coords } = await Location.getCurrentPositionAsync({});
@@ -42,7 +40,7 @@ export default function Mapa({ navigation, route }) {
       id: Math.random(),
       title: '',
       imagePath: imageUrl,
-      photoDate: Date.now(),
+      photoDate:Date.now(),
       coords: {
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude
@@ -123,7 +121,7 @@ export default function Mapa({ navigation, route }) {
         </MapView>
       ) : (
         <View>
-        <Text  >Carregando mapa...</Text>
+        <Text  >-</Text>
         </View>
       )}
 
